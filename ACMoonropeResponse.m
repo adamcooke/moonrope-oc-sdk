@@ -21,20 +21,40 @@
     return self.operation.responseObject;
 }
 
+- (BOOL)success {
+    return self.requestSuccess && [self.status isEqualToString:@"success"];
+}
+
 - (NSString *)status {
-    return [self.rawData valueForKey:@"status"];
+    if (self.requestSuccess) {
+        return [self.rawData valueForKey:@"status"];
+    } else {
+        return @"failed";
+    }
 }
 
 - (NSString *)responseTime {
-    return [self.rawData valueForKey:@"time"];
+    if (self.requestSuccess) {
+        return [self.rawData valueForKey:@"time"];
+    } else {
+        return @"0";
+    }
 }
 
 - (id)data {
-    return [self.rawData valueForKey:@"data"];
+    if (self.requestSuccess) {
+        return [self.rawData valueForKey:@"data"];
+    } else {
+        return nil;
+    }
 }
 
 - (NSDictionary *)flags {
-    return [self.rawData valueForKey:@"flags"];
+    if (self.requestSuccess) {
+        return [self.rawData valueForKey:@"flags"];
+    } else {
+        return [NSDictionary dictionary];
+    }
 }
 
 

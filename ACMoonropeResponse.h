@@ -12,8 +12,9 @@
 @interface ACMoonropeResponse : NSObject
 
 @property (strong, nonatomic) AFHTTPRequestOperation *operation;
-@property (nonatomic) BOOL success;
+@property (nonatomic) BOOL requestSuccess;
 
+- (BOOL)success;
 - (NSDictionary *)rawData;
 - (id)data;
 - (NSString *)status;

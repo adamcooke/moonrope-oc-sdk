@@ -30,30 +30,21 @@
 }
 
 - (void)setRequestHeader:(NSString *)name withValue:(NSString *)value {
-    NSLog(@"Set %@ to %@", name, value);
     [self.requestManager.requestSerializer setValue:value forHTTPHeaderField:name];
 }
 
 - (void)makeRequest:(NSString *)path params:(NSDictionary *)params completion:(void (^)(ACMoonropeResponse *response))completion {
-    
-    
     if (params == nil) {
         params = [NSDictionary dictionary];
     }
-    
     NSString *fullURL = [NSString stringWithFormat:@"%@://%@/api/v%d/%@", self.httpProtocol, self.httpHost, self.version, path];
-    NSLog(@"Loading data from API: %@", fullURL);
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [self.requestManager POST:fullURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         ACMoonropeResponse *response = [[ACMoonropeResponse alloc] initWithAFHTTPRequestOperation:operation];
-        [response setSuccess:YES];
+        [response setRequestSuccess:YES];
         completion(response);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         ACMoonropeResponse *response = [[ACMoonropeResponse alloc] initWithAFHTTPRequestOperation:operation];
-        [response setSuccess:NO];
+        [response setRequestSuccess:NO];
         completion(response);
     }];
 }

@@ -24,7 +24,7 @@ ACMoonropeClient *apiClient = [ACMoonropeClient sharedClient];
 // Make a request
 NSDictionary *params = [NSDictionary dictionaryWithObject:@"abc123" forKey:@"identifier"];
 [apiClient makeRequest:@"unit/details" params:params completion:^(ACMoonropeResponse *response) {
-    if (response.status == 'success') {
+    if ([response.status isEqualToString:@"success"]) {
       NSLog(@"%@", response.data);
       NSLog(@"%@", [response.data valueForKey:@"name"]);
     } else {
