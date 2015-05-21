@@ -37,17 +37,29 @@
     if (params == nil) {
         params = [NSDictionary dictionary];
     }
+    
+    if (self.startRequestCallback) {
+        self.startRequestCallback(path, params);
+    }
+    
     NSString *fullURL = [NSString stringWithFormat:@"%@://%@/api/v%d/%@", self.httpProtocol, self.httpHost, self.version, path];
     [self.requestManager POST:fullURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         ACMoonropeResponse *response = [[ACMoonropeResponse alloc] initWithAFHTTPRequestOperation:operation];
         [response setRequestSuccess:YES];
+        if (self.finishRequestCallback) {
+            self.finishRequestCallback(path, params, response);
+        }
         completion(response);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         ACMoonropeResponse *response = [[ACMoonropeResponse alloc] initWithAFHTTPRequestOperation:operation];
         [response setRequestSuccess:NO];
         completion(response);
+        if (self.finishRequestCallback) {
+            self.finishRequestCallback(path, params, response);
+        }
     }];
 }
+
 
 + (ACMoonropeClient *)sharedClient {
     static ACMoonropeClient *apiClient;

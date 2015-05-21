@@ -15,6 +15,8 @@
 @property (strong, nonatomic) AFHTTPRequestOperationManager *requestManager;
 @property (strong, nonatomic) NSString *httpHost;
 @property (strong, nonatomic) NSString *httpProtocol;
+@property (strong, nonatomic) void (^startRequestCallback) (NSString*, NSDictionary*);
+@property (strong, nonatomic) void (^finishRequestCallback) (NSString*, NSDictionary*, ACMoonropeResponse *);
 @property (nonatomic) int version;
 
 - (void)makeRequest:(NSString *)path params:(NSDictionary *)params completion:(void (^)(ACMoonropeResponse *response))completion;
