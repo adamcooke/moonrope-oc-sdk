@@ -11,4 +11,5 @@ Pod::Spec.new do |s|
   s.source       = {:git => "https://github.com/adamcooke/moonrope-oc-sdk.git", :tag => '1.0.0'}
   s.source_files  = "Classes", "Classes/**/*.{h,m}"
   s.requires_arc = true
+  s.dependency 'AFNetworking', '>= 2.5', '< 3'
 end
